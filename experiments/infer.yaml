@@ -1,0 +1,67 @@
+GPUS: '1'
+WORKERS: 4
+OUTPUT_DIR: 'experiments/MotionGlow'
+DEBUG: False
+verbose: False
+
+
+MODEL:
+  name: 'talkingFlow'
+
+  dim_motion: 136  # 68*2
+  dim_speech: 80
+
+  dim_latent: 256 
+  n_flowstep: 24  #12    # 24
+
+  n_early_every: 6 # 3  # 6
+  n_layer_wave: 4
+  kernel_size: 3
+  lambda_std: [0.25, 0.5, 0.75, 1.0] #    #[1, 0.75, 0.5, 0.25] # [1, 1, 1, 1]
+
+  pretrain: True
+  path_checkpoint: "./"
+  load_epoch: 100
+
+
+DATASET:
+  name: "obamaIter"
+  root: './data/obama-landmark-mel'
+
+  nwind_second_train: 3
+  nwind_second_valid: 3
+  nwind_second_test: 5
+
+TEST:
+  batch_size: 3
+
+TRAIN:
+  lr: 0.0001
+  batch_size: 16   # 64
+  shuffle: True
+
+  apply_testing: True
+  apply_validation: True 
+
+  optimizer: 'Adam'
+  momentum: 0.9
+  beta1: 0.5
+  beta2: 0.999
+  weight_decay: 0.0001
+  nesterov: False
+  grad_clip_norm: True
+  max_grad_clip: 5
+  max_grad_norm: 100
+  lr_policy: 'cosine'
+
+  resume: False
+  reset_lr: False
+  resume_suffix: "20210918-22H20M48S" # "20210918-22H21M40S" # 
+  epoch_begin: 100 # 5000  # 2300 # 2600
+  epoch_end: 200
+
+
+LOSS:
+  names: ["all", "logp", "logdet"] 
+  lambda_logp: 1
+  lambda_logdet: 1

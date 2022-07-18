@@ -1,0 +1,10 @@
+# experiments
+
+**/__pycache__
+**/*.pyc
+
+
+*.mp3
+*.pt
+
+data/
